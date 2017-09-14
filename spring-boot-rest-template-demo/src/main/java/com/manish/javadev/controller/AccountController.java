@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.manish.javadev.model.AccountEntity;
 import com.manish.javadev.service.AccountService;
 
+import io.swagger.annotations.Api;
+
 /**
  * @author Manish
  * 
@@ -60,14 +62,16 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/account", method = RequestMethod.POST, produces = { MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE })
+			MediaType.APPLICATION_JSON_VALUE }, consumes = { MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<AccountEntity> createAccount(@RequestBody AccountEntity accountEntity) {
 		accountEntity = accountService.createAccount(accountEntity);
 		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.PUT, produces = {
-			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }, consumes = {
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<AccountEntity> updateAccount(@PathVariable("accountNumber") Long accountNumber,
 			@RequestBody AccountEntity accountEntity) {
 		accountEntity = accountService.updateAccount(accountNumber, accountEntity);
