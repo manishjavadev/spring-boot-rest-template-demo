@@ -20,4 +20,6 @@ public interface AccountService {
 	AccountEntity updateAccount(Long accountNumber, AccountEntity accountEntity);
 
 	List<AccountEntity> findAllAccounts();
+
+	void deleteAccount(Long accountNumber);
 }
