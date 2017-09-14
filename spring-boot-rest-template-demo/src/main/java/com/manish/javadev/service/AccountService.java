@@ -4,16 +4,20 @@ import java.util.List;
 
 import com.manish.javadev.model.AccountEntity;
 
+/**
+ * @author Manish
+ *
+ */
 public interface AccountService {
+	AccountEntity createAccount(AccountEntity accountEntity);
 
-	List<AccountEntity> getAllAccounts();
+	AccountEntity findAccount(Long accountNumber);
 
-	AccountEntity getAccountById(Long accId);
+	public AccountEntity depositAmount(Long accountNumber, Double amount);
 
-	AccountEntity addAccount(AccountEntity accountEntity);
+	void fundTransfer(Long accountFrom, Long accountTo, Double amount);
 
-	void updateAccount(AccountEntity accountEntity);
+	AccountEntity updateAccount(Long accountNumber, AccountEntity accountEntity);
 
-	void deleteAccount(Long accId);
-
+	List<AccountEntity> findAllAccounts();
 }

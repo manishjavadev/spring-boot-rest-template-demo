@@ -1,6 +1,7 @@
 package com.manish.javadev.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author Manish
+ *
+ */
 @Entity
 @Table(name = "TBL_ACCOUNT")
 public class AccountEntity implements Serializable {
@@ -16,7 +21,7 @@ public class AccountEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ACC_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long accountNumber;
 
@@ -28,6 +33,9 @@ public class AccountEntity implements Serializable {
 
 	@Column(name = "AMOUNT")
 	private Double amount;
+
+	@Column(name = "ACCOUNT_STAR_TDATE")
+	private Date startDate;
 
 	public AccountEntity() {
 		super();
@@ -72,10 +80,18 @@ public class AccountEntity implements Serializable {
 		this.amount = amount;
 	}
 
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
 	@Override
 	public String toString() {
-		return "Account [accountNumber=" + accountNumber + ", accountType=" + accountType + ", accountHolderName="
-				+ accountHolderName + ", amount=" + amount + "]";
+		return "AccountEntity [accountNumber=" + accountNumber + ", accountType=" + accountType + ", accountHolderName="
+				+ accountHolderName + ", amount=" + amount + ", startDate=" + startDate + "]";
 	}
 
 }

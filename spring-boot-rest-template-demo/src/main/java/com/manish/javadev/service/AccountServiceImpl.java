@@ -4,42 +4,68 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.manish.javadev.dao.AccountRepository;
 import com.manish.javadev.model.AccountEntity;
-import com.manish.javadev.repository.AccountRepositery;
 
-@Service
+/**
+ * @author Manish
+ *
+ */
+@Service("accountService")
 public class AccountServiceImpl implements AccountService {
-
 	@Autowired
-	AccountRepositery accountRepositery;
+	private AccountRepository accountRepository;
 
-	@Override
-	public List<AccountEntity> getAllAccounts() {
-
-		return (List<AccountEntity>) accountRepositery.findAll();
+	public void setPersonDAO(AccountRepository accountRepository) {
+		this.accountRepository = accountRepository;
 	}
 
-	@Override
-	public AccountEntity getAccountById(Long accId) {
-		return accountRepositery.findOne(accId);
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
+	public AccountEntity createAccount(AccountEntity accountEntity) {
+		AccountEntity acccountResult = accountRepository.save(accountEntity);
+		return acccountResult;
 	}
 
-	@Override
-	public AccountEntity addAccount(AccountEntity accountEntity) {
-		return accountRepositery.save(accountEntity);
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
+	public void fundTransfer(Long accountFrom, Long accountTo, Double amount) {
+		AccountEntity accountEntity = accountRepository.findOne(accountFrom);
+		accountEntity.setAmount(accountEntity.getAmount() - amount);
+		accountRepository.save(accountEntity);
+		accountEntity = accountRepository.findOne(accountTo);
+		accountEntity.setAmount(accountEntity.getAmount() + amount);
+		accountRepository.save(accountEntity);
 	}
 
-	@Override
-	public void updateAccount(AccountEntity accountEntity) {
-		accountRepositery.save(accountEntity);
-
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
+	public AccountEntity depositAmount(Long accountNumber, Double amount) {
+		AccountEntity accountEntity = accountRepository.findOne(accountNumber);
+		accountEntity.setAmount(accountEntity.getAmount() + amount);
+		return accountRepository.save(accountEntity);
 	}
 
-	@Override
-	public void deleteAccount(Long accId) {
-		accountRepositery.delete(accId);
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
+	public AccountEntity findAccount(Long accountNumber) {
+		return accountRepository.findOne(accountNumber);
+	}
 
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
+	public AccountEntity updateAccount(Long accountNumber, AccountEntity sourceEntity) {
+		AccountEntity targetEntity = accountRepository.findOne(accountNumber);
+		targetEntity = papulateAccountEntity(sourceEntity, targetEntity);
+		return accountRepository.save(targetEntity);
+	}
+
+	private AccountEntity papulateAccountEntity(AccountEntity sourceEntity, AccountEntity targetEntity) {
+		return targetEntity;
+	}
+
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
+	public List<AccountEntity> findAllAccounts() {
+		return (List<AccountEntity>) accountRepository.findAll();
 	}
 
 }

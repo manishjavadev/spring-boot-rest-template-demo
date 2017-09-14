@@ -37,7 +37,7 @@ public class DemoApplicationUtil {
 	private static void findByAccountId() {
 		HttpHeaders httpHeders = getHeaders();
 		RestTemplate template = new RestTemplate();
-		String url = "http://localhost:3030/apiaccount/account/{accId}";
+		String url = "http://localhost:8080/api/account/{accId}";
 		HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeders);
 		ResponseEntity<AccountEntity> responseEntity = template.exchange(url, HttpMethod.GET, requestEntity,
 				AccountEntity.class, new Long(2));
@@ -49,7 +49,7 @@ public class DemoApplicationUtil {
 
 		HttpHeaders httpHeders = getHeaders();
 		RestTemplate template = new RestTemplate();
-		String url = "http://localhost:3030/apiaccount/account";
+		String url = "http://localhost:8080/api/account";
 		AccountEntity accountEntity = new AccountEntity("Saving Account", "Manish New", new Double(20000));
 
 		HttpEntity<AccountEntity> requestEntity = new HttpEntity<AccountEntity>(accountEntity, httpHeders);
@@ -61,7 +61,7 @@ public class DemoApplicationUtil {
 	private static void updateAccount() {
 		HttpHeaders httpHeders = getHeaders();
 		RestTemplate template = new RestTemplate();
-		String url = "http://localhost:3030/apiaccount/account";
+		String url = "http://localhost:8080/api/account/{}";
 		AccountEntity accountEntity = new AccountEntity("Saving Account", "Manish New", new Double(20000));
 		accountEntity.setAccountNumber(new Long(1));
 		HttpEntity<AccountEntity> requestEntity = new HttpEntity<AccountEntity>(accountEntity, httpHeders);
@@ -72,7 +72,7 @@ public class DemoApplicationUtil {
 	private static void deleteAccount() {
 		HttpHeaders httpHeders = getHeaders();
 		RestTemplate template = new RestTemplate();
-		String url = "http://localhost:3030/apiaccount/account/{accId}";
+		String url = "http://localhost:8080/api/account/{accId}";
 		HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeders);
 		template.exchange(url, HttpMethod.DELETE, requestEntity, Void.class, new Long(2));
 
@@ -81,7 +81,7 @@ public class DemoApplicationUtil {
 	private static void findAllAccount() {
 		HttpHeaders httpHeders = getHeaders();
 		RestTemplate template = new RestTemplate();
-		String url = "http://localhost:3030/apiaccount/accounts";
+		String url = "http://localhost:8080/api/accounts";
 		HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeders);
 		ResponseEntity<AccountEntity[]> responseEntity = template.exchange(url, HttpMethod.GET, requestEntity,
 				AccountEntity[].class);
